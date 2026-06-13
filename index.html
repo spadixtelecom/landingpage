@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" hdr_cd_landing_content="width=device-width,initial-scale=1">
+<title>Landing Page V7 Final Showcase</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#000;color:#fff;overflow:hidden}
+.hdr_cd_landing_loader{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-hdr_cd_landing_content:center;z-index:9999;font-size:32px;transition:1s}
+.hdr_cd_landing_loader.hide{opacity:0;pointer-events:none}
+
+.hdr_cd_landing_hero{height:100vh;position:relative;overflow:hidden}
+.hdr_cd_landing_bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:1s;transform:scale(1.05)}
+.hdr_cd_landing_overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.82),rgba(0,0,0,.25))}
+
+.hdr_cd_landing_nav{
+position:absolute;top:70px;left:30px;right:30px;
+display:flex;justify-hdr_cd_landing_content:space-between;align-items:center;
+padding:18px 30px;
+background:#ffffff;color:#111;box-shadow:0 8px 30px rgba(0,0,0,.08);
+backdrop-filter:blur(18px);
+border-radius:18px;
+z-index:100;
+}
+.hdr_cd_landing_links{display:flex;gap:24px}
+.hdr_cd_landing_links a{color:#111;text-decoration:none;font-weight:500}
+
+.hdr_cd_landing_content{
+position:absolute;left:60px;bottom:180px;max-width:650px;z-index:80;
+}
+.hdr_cd_landing_badge{display:inline-block;padding:8px 14px;background:rgba(255,255,255,.12);border-radius:999px;margin-bottom:16px}
+h1{font-size:76px;line-height:1;margin-bottom:10px}
+p{font-size:20px;opacity:.9}
+.hdr_cd_landing_cta{display:flex;gap:12px;margin-top:24px}
+.hdr_cd_landing_btn{padding:14px 22px;border:none;border-radius:12px;cursor:pointer}
+.hdr_cd_landing_btn2{background:rgba(255,255,255,.12);color:#fff}
+
+.hdr_cd_landing_stats{
+position:absolute;left:60px;bottom:40px;display:flex;gap:12px;z-index:80
+}
+.hdr_cd_landing_stat{background:rgba(255,255,255,.08);backdrop-filter:blur(10px);padding:14px 18px;border-radius:14px}
+
+.hdr_cd_landing_progress{display:none;}
+.hdr_cd_landing_bar{width:220px;height:4px;background:rgba(255,255,255,.15)}
+.hdr_cd_landing_fill{height:100%;background:#fff;width:10%;transition:.6s}
+
+.hdr_cd_landing_previews{
+position:absolute;right:30px;bottom:30px;width:470px;z-index:90
+}
+.hdr_cd_landing_strip,.hdr_cd_landing_mainrow{display:flex;gap:8px}
+.hdr_cd_landing_strip{margin-bottom:10px}
+.hdr_cd_landing_thumb{
+overflow:hidden;border-radius:12px;cursor:pointer;
+border:2px solid rgba(255,255,255,.25);
+}
+.hdr_cd_landing_thumb img{width:100%;height:100%;object-fit:cover;transition:.45s}
+.hdr_cd_landing_thumb:hover img{transform:scale(1.08)}
+.hdr_cd_landing_small{height:56px;flex:1}
+.hdr_cd_landing_big{height:130px;flex:1}
+
+.hdr_cd_landing_scroll{position:absolute;bottom:15px;left:50%;transform:translateX(-50%);z-index:80}
+
+#transitionClone{
+position:fixed;
+display:none;
+overflow:hidden;
+border-radius:16px;
+pointer-events:none;
+z-index:50; /* under hdr_cd_landing_content/navbar */
+box-shadow:0 30px 100px rgba(0,0,0,.5);
+}
+#transitionClone img{width:100%;height:100%;object-fit:cover}
+
+.textAnim{animation:textIn .6s ease}
+@keyframes textIn{
+from{opacity:0;transform:translateY(25px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+@media(max-width:768px){
+.hdr_cd_landing_topbar{
+left:15px !important;
+right:15px !important;
+top:6px !important;
+flex-direction:column;
+gap:8px;
+align-items:stretch !important;
+}
+.hdr_cd_landing_topbar input{width:100% !important;}
+.hdr_cd_landing_topbar div:last-child{
+overflow:auto;
+white-space:nowrap;
+justify-hdr_cd_landing_content:flex-start;
+}
+.hdr_cd_landing_nav{
+top:85px !important;
+}
+.hdr_cd_landing_nav-actions .hdr_cd_landing_btn{
+padding:10px 14px;
+}
+
+.hdr_cd_landing_links{display:none}
+.hdr_cd_landing_content{left:20px;right:20px;bottom:220px}
+h1{font-size:42px}
+p{font-size:16px}
+.hdr_cd_landing_stats{display:none}
+.hdr_cd_landing_previews{left:15px;right:15px;width:auto}
+.hdr_cd_landing_big{height:85px}
+.hdr_cd_landing_small{height:42px}
+.hdr_cd_landing_progress{right:20px}
+}
+
+@media(max-width:768px){
+.hdr_cd_landing_topbar{
+left:10px !important;
+right:10px !important;
+top:10px !important;
+gap:12px !important;
+flex-wrap:wrap;
+padding:10px 12px !important;
+}
+.hdr_cd_landing_topbar > div:first-child{
+flex:1 1 100%;
+max-width:none !important;
+padding-right:0 !important;
+}
+.hdr_cd_landing_topbar input{
+width:100% !important;
+font-size:14px;
+}
+.hdr_cd_landing_nav{
+top:78px !important;
+left:10px !important;
+right:10px !important;
+padding:12px 14px !important;
+}
+.hdr_cd_landing_links{
+gap:12px !important;
+font-size:13px;
+overflow:auto;
+white-space:nowrap;
+}
+.hdr_cd_landing_nav-actions .hdr_cd_landing_btn,
+.hdr_cd_landing_btn{
+padding:10px 14px !important;
+font-size:13px;
+}
+}
+
+
+@media(max-width:768px){
+.hdr_cd_landing_topbar{
+display:flex !important;
+flex-wrap:wrap !important;
+align-items:center !important;
+justify-hdr_cd_landing_content:center !important;
+gap:10px !important;
+}
+.hdr_cd_landing_topbar > div:first-child{
+flex:1 1 100% !important;
+}
+.hdr_cd_landing_topbar > div:last-child{
+width:100%;
+display:flex;
+justify-hdr_cd_landing_content:center;
+gap:10px;
+padding-top:4px;
+}
+}
+
+
+.hdr_cd_landing_mobile-menu-hdr_cd_landing_btn{display:none;}
+.hdr_cd_landing_mobile-drawer{
+position:fixed;
+top:0;
+right:-320px;
+width:300px;
+height:100vh;
+background:#fff;
+color:#111;
+z-index:999;
+padding:90px 24px 24px;
+transition:right .3s ease;
+box-shadow:-10px 0 30px rgba(0,0,0,.15);
+}
+.hdr_cd_landing_mobile-drawer.open{right:0;}
+.hdr_cd_landing_mobile-drawer a{
+display:block;
+padding:14px 0;
+text-decoration:none;
+color:#111;
+border-bottom:1px solid #eee;
+}
+.hdr_cd_landing_mobile-drawer input{
+width:100%;
+padding:12px;
+margin:18px 0;
+border:1px solid #ddd;
+border-radius:10px;
+}
+.hdr_cd_landing_drawer-hdr_cd_landing_overlay{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.4);
+z-index:998;
+}
+.hdr_cd_landing_drawer-hdr_cd_landing_overlay.show{display:block;}
+
+@media(max-width:768px){
+.hdr_cd_landing_links,.hdr_cd_landing_topbar{display:none !important;}
+.hdr_cd_landing_mobile-menu-hdr_cd_landing_btn{display:block;font-size:24px;cursor:pointer;}
+}
+
+
+.hdr_cd_landing_nav{
+transition:transform .6s ease, top .6s ease, opacity .6s ease !important;
+animation:navSlideDown .8s ease;
+}
+@keyframes navSlideDown{
+from{transform:translateY(-80px);opacity:0;}
+to{transform:translateY(0);opacity:1;}
+}
+.hdr_cd_landing_nav.hdr_cd_landing_nav-sticky{
+position:fixed !important;
+top:10px !important;
+left:20px !important;
+right:20px !important;
+transform:translateY(0);
+z-index:1000;
+}
+
+
+@media(max-width:768px){
+.hdr_cd_landing_topbar{
+position:absolute !important;
+top:6px !important;
+left:10px !important;
+right:10px !important;
+margin:0 !important;
+padding:0 !important;
+min-height:auto !important;
+}
+.hdr_cd_landing_nav{
+top:48px !important;
+left:10px !important;
+right:10px !important;
+}
+.hdr_cd_landing_hero{
+padding-top:0 !important;
+}
+}
+
+
+@media(max-width:768px){
+.hdr_cd_landing_topbar{
+top:0 !important;
+left:8px !important;
+right:8px !important;
+padding:0 !important;
+}
+.hdr_cd_landing_nav{
+top:34px !important;
+left:8px !important;
+right:8px !important;
+padding:10px 14px !important;
+}
+}
+
+
+@media(max-width:768px){
+.hdr_cd_landing_nav{
+top:5px !important;
+left:8px !important;
+right:8px !important;
+margin-top:0 !important;
+}
+.hdr_cd_landing_topbar{
+display:none !important;
+}
+}
+
+
+/* Tablet & hdr_cd_landing_small laptop fixes */
+@media (max-width:1100px){
+.hdr_cd_landing_previews{
+    width:420px !important;
+    right:20px !important;
+}
+.hdr_cd_landing_content{
+    max-width:420px !important;
+}
+.hdr_cd_landing_small{
+    height:46px !important;
+}
+.hdr_cd_landing_big{
+    height:95px !important;
+}
+.hdr_cd_landing_gallery-hdr_cd_landing_progress{
+    margin-bottom:8px !important;
+}
+}
+
+@media (max-width:900px){
+.hdr_cd_landing_previews{
+    width:360px !important;
+    right:15px !important;
+}
+.hdr_cd_landing_content{
+    max-width:360px !important;
+}
+.hdr_cd_landing_small{
+    height:42px !important;
+}
+.hdr_cd_landing_big{
+    height:85px !important;
+}
+.hdr_cd_landing_strip{
+    overflow:hidden !important;
+}
+}
+
+</style>
+</head>
+<body>
+
+<div class="hdr_cd_landing_loader" id="hdr_cd_landing_loader">HDR</div>
+
+<section class="hdr_cd_landing_hero">
+<div class="hdr_cd_landing_bg" id="hdr_cd_landing_bg"></div>
+<div class="hdr_cd_landing_overlay"></div>
+
+<hdr_cd_landing_nav class="hdr_cd_landing_nav">
+<div><strong>HDR</strong></div><div class="hdr_cd_landing_mobile-menu-hdr_cd_landing_btn" onclick="toggleDrawer()">☰</div>
+<div class="hdr_cd_landing_links">
+<a href="#">Home</a>
+<a href="#">Destinations</a>
+<a href="#">Gallery</a>
+<a href="#">Contact</a>
+<a href="#">Nature</a>
+<a href="#">Adventure</a>
+<a href="#">Travel</a>
+<a href="#">Photography</a>
+</div>
+
+</hdr_cd_landing_nav>
+
+
+
+<div class="hdr_cd_landing_topbar" style="position:absolute;top:10px;left:30px;right:30px;z-index:110;display:flex;justify-hdr_cd_landing_content:space-between;align-items:center;color:#fff;gap:50px;padding:8px 16px;background:transparent;color:#fff;border-radius:0;">
+  <div style="flex:1;max-width:850px;padding-right:40px;">
+    <input type="text" placeholder="Search..." style="width:100%;background:transparent;border:none;border:1px solid rgba(255,255,255,.25);border-radius:999px;color:#111;padding:12px 18px;background:#fff;outline:none;">
+  </div>
+  <div style="display:flex;gap:18px;align-items:center;padding-left:20px;">
+    
+<button class="hdr_cd_landing_btn hdr_cd_landing_btn2" style="display:flex;align-items:center;gap:8px;padding:12px 24px;">
+🛒 <span>Cart</span>
+</button>
+<button class="hdr_cd_landing_btn" style="display:flex;align-items:center;gap:8px;padding:12px 24px;">
+👤 <span>Sign In</span>
+</button>
+
+  </div>
+</div>
+
+<div class="hdr_cd_landing_progress">
+<div id="counter">01 / 10</div>
+<div class="hdr_cd_landing_bar"><div class="hdr_cd_landing_fill" id="hdr_cd_landing_fill"></div></div>
+</div>
+
+<div class="hdr_cd_landing_content">
+<div class="hdr_cd_landing_badge">Featured Destination</div>
+<h1 id="title">Mirror Lake</h1>
+<p id="desc">Stillness in the alpine wild.</p>
+<div class="hdr_cd_landing_cta">
+<button class="hdr_cd_landing_btn">Explore</button>
+<button class="hdr_cd_landing_btn hdr_cd_landing_btn2">▶ Watch Reel</button>
+</div>
+</div>
+
+<div class="hdr_cd_landing_stats">
+<div class="hdr_cd_landing_stat"><b>10+</b><br>Destinations</div>
+<div class="hdr_cd_landing_stat"><b>50K+</b><br>Visitors</div>
+<div class="hdr_cd_landing_stat"><b>4.9★</b><br>Rating</div>
+</div>
+
+
+<div class="hdr_cd_landing_previews">
+<div class="hdr_cd_landing_gallery-hdr_cd_landing_progress" style="display:flex;flex-direction:column;align-items:flex-end;margin-bottom:10px;padding-right:0;">
+  <div id="galleryCounter">01 / 10</div>
+  <div style="width:220px;height:4px;background:rgba(255,255,255,.15);margin:6px 0 0 auto;">
+      <div id="galleryFill" style="height:100%;width:10%;background:#fff;transition:.6s;"></div>
+  </div>
+</div>
+
+<div class="hdr_cd_landing_strip" id="hdr_cd_landing_strip"></div>
+<div class="hdr_cd_landing_mainrow" id="hdr_cd_landing_mainrow"></div>
+</div>
+
+<div class="hdr_cd_landing_scroll">⌄ Scroll</div>
+</section>
+
+<div id="transitionClone"></div>
+
+<script>
+const slides=[
+["Mirror Lake","Stillness in the alpine wild.","https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=2000"],
+["Mountain Peak","Touch the clouds above.","https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=2000"],
+["Deep Forest","Walk through nature.","https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=2000"],
+["Golden Desert","Beauty beyond the horizon.","https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=2000"],
+["Ocean Dream","Where sea meets sky.","https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=2000"],
+["Snow Valley","A peaceful winter scene.","https://images.unsplash.com/photo-1511497584788-876760111969?w=2000"],
+["River View","Flowing through mountains.","https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=2000"],
+["Green Hills","Endless natural beauty.","https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=2000"],
+["Wild Nature","Untouched landscapes.","https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=2000"],
+["Blue Horizon","Adventure awaits.","https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=2000"]
+];
+
+let current=0;
+const hdr_cd_landing_bg=document.getElementById('hdr_cd_landing_bg');
+const title=document.getElementById('title');
+const desc=document.getElementById('desc');
+const hdr_cd_landing_strip=document.getElementById('hdr_cd_landing_strip');
+const hdr_cd_landing_mainrow=document.getElementById('hdr_cd_landing_mainrow');
+const clone=document.getElementById('transitionClone');
+
+function render(){
+const s=slides[current];
+hdr_cd_landing_bg.style.backgroundImage=`url(${s[2]})`;
+title.textContent=s[0];
+desc.textContent=s[1];
+title.className='textAnim';
+desc.className='textAnim';
+counter.textContent=String(current+1).padStart(2,'0')+' / '+slides.length;
+hdr_cd_landing_fill.style.width=((current+1)/slides.length*100)+'%';
+const gc=document.getElementById('galleryCounter');
+const gf=document.getElementById('galleryFill');
+if(gc) gc.textContent=counter.textContent;
+if(gf) gf.style.width=hdr_cd_landing_fill.style.width;
+
+hdr_cd_landing_mainrow.innerHTML='';
+hdr_cd_landing_strip.innerHTML='';
+
+for(let i=1;i<=2;i++){
+let idx=(current+i)%slides.length;
+hdr_cd_landing_mainrow.innerHTML += `<div class="hdr_cd_landing_thumb hdr_cd_landing_big" data-i="${idx}"><img src="${slides[idx][2]}"></div>`;
+}
+for(let i=3;i<slides.length;i++){
+let idx=(current+i)%slides.length;
+hdr_cd_landing_strip.innerHTML += `<div class="hdr_cd_landing_thumb hdr_cd_landing_small" data-i="${idx}"><img src="${slides[idx][2]}"></div>`;
+}
+
+document.querySelectorAll('.hdr_cd_landing_thumb').forEach(t=>{
+t.onclick=()=>animateTo(+t.dataset.i,t);
+});
+}
+
+function animateTo(index,el){
+const img=slides[index][2];
+const r=el.getBoundingClientRect();
+
+clone.innerHTML=`<img src="${img}">`;
+clone.style.display='block';
+clone.style.left=r.left+'px';
+clone.style.top=r.top+'px';
+clone.style.width=r.width+'px';
+clone.style.height=r.height+'px';
+clone.style.opacity='1';
+
+requestAnimationFrame(()=>{
+clone.style.transition='all .55s cubic-bezier(.22,1,.36,1)';
+clone.style.left=(innerWidth/2-220)+'px';
+clone.style.top=(innerHeight/2-140)+'px';
+clone.style.width='440px';
+clone.style.height='280px';
+
+setTimeout(()=>{
+clone.style.transition='all .8s cubic-bezier(.22,1,.36,1)';
+clone.style.left='0';
+clone.style.top='0';
+clone.style.width='100vw';
+clone.style.height='100vh';
+clone.style.borderRadius='0';
+},550);
+});
+
+setTimeout(()=>{
+current=index;
+render();
+},900);
+
+setTimeout(()=>{
+clone.style.opacity='0';
+},1200);
+
+setTimeout(()=>{
+clone.style.display='none';
+},1600);
+}
+
+render();
+
+setInterval(()=>{
+current=(current+1)%slides.length;
+render();
+},7000);
+
+setTimeout(()=>hdr_cd_landing_loader.classList.add('hide'),1200);
+
+document.addEventListener('mousemove',e=>{
+const x=(e.clientX/innerWidth-.5)*8;
+const y=(e.clientY/innerHeight-.5)*8;
+hdr_cd_landing_bg.style.transform=`scale(1.05) translate(${x}px,${y}px)`;
+});
+</script>
+
+<div class="hdr_cd_landing_drawer-hdr_cd_landing_overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+
+<div class="hdr_cd_landing_mobile-drawer" id="mobileDrawer">
+<a href="#">Home</a>
+<a href="#">Destinations</a>
+<a href="#">Gallery</a>
+<a href="#">Contact</a>
+
+<input type="text" placeholder="Search...">
+
+<a href="#">👤 Sign In</a>
+<a href="#">🛒 Cart</a>
+</div>
+
+<script>
+function toggleDrawer(){
+ document.getElementById('mobileDrawer').classList.toggle('open');
+ document.getElementById('drawerOverlay').classList.toggle('show');
+}
+</script>
+
+<script>
+function handleMobileTopbar(){
+  const hdr_cd_landing_topbar=document.querySelector('.hdr_cd_landing_topbar');
+  const hdr_cd_landing_nav=document.querySelector('.hdr_cd_landing_nav');
+  if(!hdr_cd_landing_topbar || !hdr_cd_landing_nav) return;
+
+  if(window.innerWidth <= 768){
+    let lastY=0;
+    window.addEventListener('hdr_cd_landing_scroll',()=>{
+      const y=window.scrollY;
+      if(y>50){
+        hdr_cd_landing_topbar.style.transform='translateY(-100%)';
+        hdr_cd_landing_topbar.style.opacity='0';
+        hdr_cd_landing_nav.style.top='10px';
+      }else{
+        hdr_cd_landing_topbar.style.transform='translateY(0)';
+        hdr_cd_landing_topbar.style.opacity='1';
+        hdr_cd_landing_nav.style.top='70px';
+      }
+      lastY=y;
+    });
+  }
+}
+handleMobileTopbar();
+</script>
+</body>
+
+
+</html>
+
+<style>
+@media(max-width:768px){
+.hdr_cd_landing_topbar{
+display:flex !important;
+flex-wrap:nowrap !important;
+justify-hdr_cd_landing_content:space-between !important;
+align-items:center !important;
+gap:10px !important;
+}
+.hdr_cd_landing_topbar > div:first-child{
+flex:1 !important;
+max-width:none !important;
+}
+.hdr_cd_landing_topbar > div:last-child{
+width:auto !important;
+display:flex !important;
+justify-hdr_cd_landing_content:flex-end !important;
+gap:8px !important;
+padding-top:0 !important;
+}
+.hdr_cd_landing_topbar input{
+padding:10px 14px !important;
+font-size:14px !important;
+}
+}
+
+.hdr_cd_landing_mobile-menu-hdr_cd_landing_btn{display:none;}
+.hdr_cd_landing_mobile-drawer{
+position:fixed;
+top:0;
+right:-320px;
+width:300px;
+height:100vh;
+background:#fff;
+color:#111;
+z-index:999;
+padding:90px 24px 24px;
+transition:right .3s ease;
+box-shadow:-10px 0 30px rgba(0,0,0,.15);
+}
+.hdr_cd_landing_mobile-drawer.open{right:0;}
+.hdr_cd_landing_mobile-drawer a{
+display:block;
+padding:14px 0;
+text-decoration:none;
+color:#111;
+border-bottom:1px solid #eee;
+}
+.hdr_cd_landing_mobile-drawer input{
+width:100%;
+padding:12px;
+margin:18px 0;
+border:1px solid #ddd;
+border-radius:10px;
+}
+.hdr_cd_landing_drawer-hdr_cd_landing_overlay{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.4);
+z-index:998;
+}
+.hdr_cd_landing_drawer-hdr_cd_landing_overlay.show{display:block;}
+
+@media(max-width:768px){
+.hdr_cd_landing_links,.hdr_cd_landing_topbar{display:none !important;}
+.hdr_cd_landing_mobile-menu-hdr_cd_landing_btn{display:block;font-size:24px;cursor:pointer;}
+}
+
+
+.hdr_cd_landing_nav{
+transition:transform .6s ease, top .6s ease, opacity .6s ease !important;
+animation:navSlideDown .8s ease;
+}
+@keyframes navSlideDown{
+from{transform:translateY(-80px);opacity:0;}
+to{transform:translateY(0);opacity:1;}
+}
+.hdr_cd_landing_nav.hdr_cd_landing_nav-sticky{
+position:fixed !important;
+top:10px !important;
+left:20px !important;
+right:20px !important;
+transform:translateY(0);
+z-index:1000;
+}
+
+
+@media(max-width:768px){
+.hdr_cd_landing_topbar{
+position:absolute !important;
+top:6px !important;
+left:10px !important;
+right:10px !important;
+margin:0 !important;
+padding:0 !important;
+min-height:auto !important;
+}
+.hdr_cd_landing_nav{
+top:48px !important;
+left:10px !important;
+right:10px !important;
+}
+.hdr_cd_landing_hero{
+padding-top:0 !important;
+}
+}
+
+
+@media(max-width:768px){
+.hdr_cd_landing_topbar{
+top:0 !important;
+left:8px !important;
+right:8px !important;
+padding:0 !important;
+}
+.hdr_cd_landing_nav{
+top:34px !important;
+left:8px !important;
+right:8px !important;
+padding:10px 14px !important;
+}
+}
+
+
+@media(max-width:768px){
+.hdr_cd_landing_nav{
+top:5px !important;
+left:8px !important;
+right:8px !important;
+margin-top:0 !important;
+}
+.hdr_cd_landing_topbar{
+display:none !important;
+}
+}
+
+
+/* Tablet & hdr_cd_landing_small laptop fixes */
+@media (max-width:1100px){
+.hdr_cd_landing_previews{
+    width:420px !important;
+    right:20px !important;
+}
+.hdr_cd_landing_content{
+    max-width:420px !important;
+}
+.hdr_cd_landing_small{
+    height:46px !important;
+}
+.hdr_cd_landing_big{
+    height:95px !important;
+}
+.hdr_cd_landing_gallery-hdr_cd_landing_progress{
+    margin-bottom:8px !important;
+}
+}
+
+@media (max-width:900px){
+.hdr_cd_landing_previews{
+    width:360px !important;
+    right:15px !important;
+}
+.hdr_cd_landing_content{
+    max-width:360px !important;
+}
+.hdr_cd_landing_small{
+    height:42px !important;
+}
+.hdr_cd_landing_big{
+    height:85px !important;
+}
+.hdr_cd_landing_strip{
+    overflow:hidden !important;
+}
+}
+
+</style>
